@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+
+from django.conf.global_settings import STATIC_ROOT
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,19 +30,44 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [os.getenv('DB_HOST')]
 
 # Application definition
 
+PROJECT_APPS = [
+    'BalkanPress.articles',
+    'BalkanPress.categories',
+    'BalkanPress.comments',
+    'BalkanPress.common',
+    'BalkanPress.tags',
+]
+
 INSTALLED_APPS = [
+    'jazzmin',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + PROJECT_APPS
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Balkan Press Admin",
+    "site_header": "Balkan Press",
+    "site_brand": "Balkan Press",
+    "welcome_sign": "Welcome to Balkan Press Admin",
+    "copyright": "Balkan Press Ltd",
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.group": "fas fa-users",
+    },
+    "search_model": "blog.article",
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,3 +150,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
