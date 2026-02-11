@@ -55,11 +55,11 @@ INSTALLED_APPS = [
 ] + PROJECT_APPS
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Balkan Press Admin",
-    "site_header": "Balkan Press",
-    "site_brand": "Balkan Press",
-    "welcome_sign": "Welcome to Balkan Press Admin",
-    "copyright": "Balkan Press Ltd",
+    "site_title": "BalkanPress Admin",
+    "site_header": "BalkanPress",
+    "site_brand": "BalkanPress",
+    "welcome_sign": "Welcome to BalkanPress Admin",
+    "copyright": "BalkanPress Ltd",
     "icons": {
         "auth.user": "fas fa-user",
         "auth.group": "fas fa-users",

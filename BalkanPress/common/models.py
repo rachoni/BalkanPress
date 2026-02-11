@@ -1,10 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class AricleCommentBase(models.Model):
-    class Meta:
-        abstract = True
-
+class TimeStampModel(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
@@ -13,6 +10,5 @@ class AricleCommentBase(models.Model):
         auto_now=True
     )
 
-    is_published = models.BooleanField(
-        default=True
-    )
+    class Meta:
+        abstract = True
