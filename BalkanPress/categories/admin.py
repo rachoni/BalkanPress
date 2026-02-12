@@ -8,3 +8,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['name']
     ordering = ['name']
+
+    def get_queryset(self, request):
+        return super().get_queryset(request)
