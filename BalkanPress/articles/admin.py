@@ -9,7 +9,7 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ['title', 'summary', 'content']
     list_filter = ['is_published', 'created_at', 'updated_at', 'categories']
     filter_horizontal = ['categories', 'tags']
-    readonly_fields = ['created_at', 'updated_at', 'featured_image_preview']
+    readonly_fields = ['created_at', 'updated_at', 'slug', 'featured_image_preview']
     ordering = ['-created_at']
     list_per_page = 25
     date_hierarchy = 'created_at'
