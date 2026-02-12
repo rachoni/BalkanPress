@@ -1,17 +1,25 @@
 from django import forms
 from .models import Article
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column, HTML
-from crispy_forms.bootstrap import PrependedText
+from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column, HTML, Field
 
 class ArticleBaseForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'summary', 'content', 'categories', 'tags', 'is_published']
+        fields = [
+            'title',
+            'featured_image',
+            'summary',
+            'content',
+            'categories',
+            'tags',
+            'is_published'
+        ]
 
 class ArticleCreateForm(ArticleBaseForm):
     class Meta(ArticleBaseForm.meta):
         widgets = {
+            'featured_image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'summary': forms.Textarea(attrs={'rows': 3}),
             'content': forms.Textarea(attrs={'rows': 10}),
         }
@@ -23,6 +31,10 @@ class ArticleCreateForm(ArticleBaseForm):
             Fieldset(
                 'Basic Information',
                 'title',
+                Field(
+                    'featured_image',
+                    css_class='form-control-file'
+                ),
                 Row(
                     Column(
                         'summary',
@@ -62,6 +74,7 @@ class ArticleCreateForm(ArticleBaseForm):
 class ArticleEditForm(ArticleBaseForm):
     class Meta(ArticleBaseForm.meta):
         widgets = {
+            'featured_image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'summary': forms.Textarea(attrs={'rows': 3}),
             'content': forms.Textarea(attrs={'rows': 10}),
         }
@@ -73,6 +86,10 @@ class ArticleEditForm(ArticleBaseForm):
             Fieldset(
                 'Basic Information',
                 'title',
+                Field(
+                    'featured_image',
+                    css_class='form-control-file'
+                ),
                 Row(
                     Column(
                         'summary',
@@ -120,6 +137,10 @@ class ArticleDeleteForm(ArticleBaseForm):
             Fieldset(
                 'Article Information',
                 'title',
+                Field(
+                    'featured_image',
+                    css_class='form-control-file'
+                ),
                 Row(
                     Column(
                         'summary',
