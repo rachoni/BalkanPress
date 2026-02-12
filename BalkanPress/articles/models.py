@@ -12,7 +12,7 @@ class Article(TimeStampModel):
 
     slug = models.SlugField(
         unique=True,
-        blank=True
+        editable=False
     )
 
     summary = models.TextField()
@@ -38,5 +38,5 @@ class Article(TimeStampModel):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.slugg:
-            self.slug = slugify(f'{Category__name}/{self.title}/')
+        self.slug = slugify(f'{self.categories.name}/{self.title}-{str(self.pk)}')
+        super().save(*args, **kwargs)

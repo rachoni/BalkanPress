@@ -9,7 +9,8 @@ class Tag(models.Model):
     )
 
     slug = models.SlugField(
-        unique=True
+        unique=True,
+        editable=False
     )
 
     def __str__(self):
@@ -17,3 +18,4 @@ class Tag(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        super().save(*args, **kwargs)

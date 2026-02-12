@@ -7,6 +7,4 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     search_fields = ['name']
     list_filter = ['name']
-    prepopulated_fields = {'slug': ('name',)}
     ordering = ['name']
-    readonly_fields = ['slug']

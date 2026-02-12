@@ -28,4 +28,4 @@ class Comment(TimeStampModel):
 
     def approve(self):
         self.is_approved = True
-        self.save()
+        self.save(update_fields=['is_approved'])
