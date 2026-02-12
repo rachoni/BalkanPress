@@ -17,7 +17,7 @@ class ArticleBaseForm(forms.ModelForm):
         ]
 
 class ArticleCreateForm(ArticleBaseForm):
-    class Meta(ArticleBaseForm.meta):
+    class Meta(ArticleBaseForm.Meta):
         widgets = {
             'featured_image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'summary': forms.Textarea(attrs={'rows': 3}),
@@ -72,7 +72,7 @@ class ArticleCreateForm(ArticleBaseForm):
         )
 
 class ArticleEditForm(ArticleBaseForm):
-    class Meta(ArticleBaseForm.meta):
+    class Meta(ArticleBaseForm.Meta):
         widgets = {
             'featured_image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'summary': forms.Textarea(attrs={'rows': 3}),

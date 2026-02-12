@@ -18,7 +18,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from .articles.views import ArticleListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', ArticleListView.as_view(), name='index'),
+    path('articles/', include('BalkanPress.articles.urls')),
+    path('categories/', include('BalkanPress.categories.urls')),
+    path('tags/', include('BalkanPress.tags.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
