@@ -1,6 +1,6 @@
 # BalkanPress
 
-BalkanPress is a production ready news and blogging platfor built with Django. It supports articles, categories, tags, comments, search functionality and a clean scalable architecture.
+BalkanPress is a production ready news and blogging platform built with Django. It supports articles, categories, tags, comments, search functionality and a clean scalable architecture.
 
 ---
 
