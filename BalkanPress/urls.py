@@ -14,19 +14,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from .articles.views import ArticleListView
+from django.urls import include, path
+
+from BalkanPress.common.views import AboutView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', ArticleListView.as_view(), name='index'),
-    path('articles/', include('BalkanPress.articles.urls')),
-    path('categories/', include('BalkanPress.categories.urls')),
-    path('tags/', include('BalkanPress.tags.urls'))
+    path("admin/", admin.site.urls),
+    path(
+        "categories/",
+        include(("BalkanPress.categories.urls", "categories"), namespace="categories"),
+    ),
+    path("tags/", include(("BalkanPress.tags.urls", "tags"), namespace="tags")),
+    path("about/", AboutView.as_view(), name="about"),
+    path("", include(("BalkanPress.articles.urls", "articles"), namespace="articles")),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = "BalkanPress.common.views.custom_404"

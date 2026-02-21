@@ -3,31 +3,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Balkan Press{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BalkanPress{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <img class="mx-4" height="50" width="50" src="{% static 'images/logo.png' %}" alt="balkanpress logo">
 
-        <div class="container">
-            <a class="navbar-brand font-weight-bold" href="/">Balkan Press</a>
-        </div>
-        <nav class="d-flex gap-3">
-            <a class="nav-link text-white" href="{% url '#' %}">#1</a>
-            <a class="nav-link text-white" href="{% url '#' %}">#2</a>
-            <a class="nav-link text-white me-3" href="{% url '#' %}">#3</a>
-        </nav>
-    </header>
-    <main class="container mb-5">
+    {% include 'common/partials/nav.html' %}
+
+    <main class="py-5">
         {% block content %}
         {% endblock %}
     </main>
-</body>
-<footer class="bg-dark text-light py-3 mt-auto">
-    {% include 'common/partials/footer.html' %}
-</footer>
+
+    <footer class="bg-dark text-light text-center py-3">
+        {% include 'common/partials/footer.html' %}
+    </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
 </html>

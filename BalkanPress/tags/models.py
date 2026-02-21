@@ -1,17 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 # Create your models here.
 class Tag(models.Model):
-    name = models.CharField(
-        max_length=50,
-        unique=True
-    )
+    name = models.CharField(max_length=50, unique=True)
 
-    slug = models.SlugField(
-        unique=True,
-        editable=False
-    )
+    slug = models.SlugField(unique=True, editable=False)
 
     def __str__(self):
         return self.name

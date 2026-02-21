@@ -8,27 +8,45 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('categories', '0001_initial'),
-        ('tags', '0001_initial'),
+        ("categories", "0001_initial"),
+        ("tags", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_published', models.BooleanField(default=True)),
-                ('title', models.CharField(max_length=200)),
-                ('slug', models.SlugField(blank=True, unique=True)),
-                ('summary', models.TextField()),
-                ('content', models.TextField()),
-                ('categories', models.ManyToManyField(related_name='articles', to='categories.category')),
-                ('tags', models.ManyToManyField(blank=True, related_name='srticles', to='tags.tag')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_published", models.BooleanField(default=True)),
+                ("title", models.CharField(max_length=200)),
+                ("slug", models.SlugField(blank=True, unique=True)),
+                ("summary", models.TextField()),
+                ("content", models.TextField()),
+                (
+                    "categories",
+                    models.ManyToManyField(
+                        related_name="articles", to="categories.category"
+                    ),
+                ),
+                (
+                    "tags",
+                    models.ManyToManyField(
+                        blank=True, related_name="srticles", to="tags.tag"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

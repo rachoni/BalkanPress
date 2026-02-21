@@ -1,0 +1,63 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'articles:list' %}">
+            <img src="{% static 'images/logo.png' %}" alt="BalkanPress logo" height="50" class="me-2">
+            BalkanPress
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'categories:list' %}">
+                        Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'tags:list' %}">
+                        Tags
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'articles:create' %}">
+                        Create Article
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'categories:create' %}">
+                        Create Category
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'tags:create' %}">
+                        Create Tag
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'about' %}">
+                        About Us
+                    </a>
+                </li>
+            </ul>
+
+            <form class="d-flex ms-lg-3" role="search" method="get" action="{% url 'articles:search' %}">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search articles..." value="{{ request.GET.q|default:'' }}" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+        </div>
+    </div>
+</nav>

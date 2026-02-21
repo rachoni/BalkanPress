@@ -6,21 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('comments', '0001_initial'),
+        ("comments", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='comment',
-            options={'ordering': ['-created_at']},
+            name="comment",
+            options={"ordering": ["-created_at"]},
         ),
         migrations.RemoveField(
-            model_name='comment',
-            name='is_published',
+            model_name="comment",
+            name="is_published",
         ),
         migrations.AddField(
-            model_name='comment',
-            name='is_approved',
+            model_name="comment",
+            name="is_approved",
             field=models.BooleanField(default=False),
         ),
     ]

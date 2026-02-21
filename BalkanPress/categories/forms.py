@@ -1,45 +1,23 @@
-from django import forms
-from .models import Category
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from BalkanPress.common.forms import BootStrapModelForm, ReadOnlyModelForm
 
-class CategoryBaseForm(forms.ModelForm):
+from .models import Category
+
+
+class CategoryBaseForm(BootStrapModelForm):
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ["name"]
+
 
 class CategoryCreateForm(CategoryBaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'name',
-            Submit(
-                'submit', 'Create Category', css_class='btn btn-primary'
-            )
-        )
+    pass
+
 
 class CategoryEditForm(CategoryBaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'name',
-            Submit(
-                'submit', 'Update Category', css_class='btn btn-success'
-            )
-        )
+    pass
 
-class CategoryDeleteForm(CategoryBaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.disabled = True
 
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'name',
-            Submit(
-                'submit', 'Delete Category', css_class='btn btn-danger'
-            )
-        )
+class CategoryDeleteForm(ReadOnlyModelForm):
+    class Meta:
+        model = Category
+        fields = ["name"]

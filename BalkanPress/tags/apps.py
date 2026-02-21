@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class TagsConfig(AppConfig):
-    name = 'BalkanPress.tags'
+    name = "BalkanPress.tags"

@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class CategoriesConfig(AppConfig):
-    name = 'BalkanPress.categories'
+    name = "BalkanPress.categories"

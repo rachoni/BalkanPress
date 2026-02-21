@@ -1,20 +1,23 @@
-from django.urls import path, include
+from django.urls import include, path
+
 from .views import (
-    CategoryListView,
+    CategoryArticleListView,
     CategoryCreateView,
+    CategoryDeleteView,
     CategoryEditView,
-    CategoryDeleteView
+    CategoryListView,
 )
 
-app_name = 'categories'
+app_name = "categories"
 
 category_patterns = [
-    path('edit/', CategoryEditView.as_view(), name='edit'),
-    path('delete/', CategoryDeleteView.as_view(), name='delete'),
+    path("", CategoryArticleListView.as_view(), name="category-articles"),
+    path("edit/", CategoryEditView.as_view(), name="edit"),
+    path("delete/", CategoryDeleteView.as_view(), name="delete"),
 ]
 
 urlpatterns = [
-    path('', CategoryListView.as_view(), name='list'),
-    path('create/', CategoryCreateView.as_view(), name='create'),
-    path('<slug:slug>/', include(category_patterns)),
+    path("", CategoryListView.as_view(), name="list"),
+    path("create/", CategoryCreateView.as_view(), name="create"),
+    path("<slug:slug>/", include(category_patterns)),
 ]
