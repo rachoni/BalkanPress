@@ -287,3 +287,16 @@ Contributions are welcom! Please follow these steps:
 - Implement caching for frequently accessed data
 - Add unit tests for all views and forms
 - Deploy to production (AWS/Heroku)
+
+---
+
+## License
+
+MIT Licence
+
+---
+
+## Contact
+
+Radoslav Raychev - [GitHub](https://github.com/rachoni)
+Project Link: https://github.com/rachoni/balkanpress
