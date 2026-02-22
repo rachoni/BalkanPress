@@ -52,41 +52,42 @@ class ArticleSearchForm(forms.Form):
     )
 
     def filter_queryset(self, queryset):
+        # Start with published articles only
+        queryset = queryset.filter(is_published=True)
+
         query = self.cleaned_data.get("q")
         category = self.cleaned_data.get("category")
         tag = self.cleaned_data.get("tag")
         sort = self.cleaned_data.get("sort", "newest")
 
-        # Start with published articles only
-        queryset = queryset.filter(is_published=True)
-
         if query:
-            queryset = queryset.filter(
+            text_filter = (
                 Q(title__icontains=query)
                 | Q(summary__icontains=query)
                 | Q(content__icontains=query)
                 | Q(categories__name__icontains=query)
                 | Q(tags__name__icontains=query)
             )
+            queryset = queryset.filter(text_filter)
 
-            if category:
-                queryset = queryset.filter(categories=category)
+        if category:
+            queryset = queryset.filter(categories=category)
 
-            if tag:
-                queryset = queryset.filter(tags=tag)
+        if tag:
+            queryset = queryset.filter(tags=tag)
 
-            if sort == "oldest":
-                queryset = queryset.order_by("created_at")
-            elif sort == "title_asc":
-                queryset = queryset.order_by("title")
-            elif sort == "title_desc":
-                queryset = queryset.order_by("-title")
-            elif sort == "most_commented":
-                queryset = queryset.annotate(comment_count=Count("comments")).order_by(
-                    "-comment_count", "-created_at"
-                )
-            else:  # 'newest' or default
-                queryset = queryset.order_by("-created_at")
+        if sort == "oldest":
+            queryset = queryset.order_by("created_at")
+        elif sort == "title_asc":
+            queryset = queryset.order_by("title")
+        elif sort == "title_desc":
+            queryset = queryset.order_by("-title")
+        elif sort == "most_commented":
+            queryset = queryset.annotate(comment_count=Count("comments")).order_by(
+                "-comment_count", "-created_at"
+            )
+        else:  # 'newest' or default
+            queryset = queryset.order_by("-created_at")
 
         return queryset.distinct()
 
