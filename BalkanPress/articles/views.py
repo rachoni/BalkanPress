@@ -1,23 +1,14 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 from django.views.generic.edit import FormMixin
 
 from BalkanPress.comments.forms import CommentCreateForm
 
-from .forms import (
-    ArticleCreateForm,
-    ArticleDeleteForm,
-    ArticleEditForm,
-    ArticleSearchForm,
-)
+from .forms import (ArticleCreateForm, ArticleDeleteForm, ArticleEditForm,
+                    ArticleSearchForm)
 from .models import Article
 
 

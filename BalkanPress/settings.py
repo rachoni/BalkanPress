@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+
 from django.conf.global_settings import STATIC_ROOT
 from dotenv import load_dotenv
 
@@ -29,11 +30,16 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv(ALLOWED)
+ALLOWED_HOSTS = [
+    os.getenv("DB_HOST"),
+    os.getenv("ALLOWED_LOCAL_HOST"),
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://DB_HOST",
+    "http://127.0.0.1",
     "http://localhost",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
 ]
 
 # Application definition

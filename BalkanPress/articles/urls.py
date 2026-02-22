@@ -1,13 +1,7 @@
 from django.urls import include, path
 
-from .views import (
-    ArticleCreateView,
-    ArticleDeleteView,
-    ArticleDetailView,
-    ArticleEditView,
-    ArticleListView,
-    ArticleSearchView,
-)
+from .views import (ArticleCreateView, ArticleDeleteView, ArticleDetailView,
+                    ArticleEditView, ArticleListView, ArticleSearchView)
 
 app_name = "articles"
 

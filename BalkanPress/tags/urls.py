@@ -1,12 +1,7 @@
 from django.urls import include, path
 
-from .views import (
-    TagArticleListView,
-    TagCreateView,
-    TagDeleteView,
-    TagEditView,
-    TagListView,
-)
+from .views import (TagArticleListView, TagCreateView, TagDeleteView,
+                    TagEditView, TagListView)
 
 app_name = "tags"
 
