@@ -28,11 +28,12 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     os.getenv("DB_HOST"),
     os.getenv("ALLOWED_LOCAL_HOST"),
+    "https://balkanpress-cuegbqejasgpc0at.swedencentral-01.azurewebsites.net"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
