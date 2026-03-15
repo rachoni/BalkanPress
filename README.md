@@ -1,6 +1,6 @@
 # BalkanPress
 
-<img width="1313" height="604" alt="BalkanPress Screenshot" src="staticfiles/images/readme-screenshot.pnh" />
+<img width="1313" height="604" alt="BalkanPress Screenshot" src="staticfiles/images/readme-screenshot.png" />
 
 BalkanPress is a production-ready news and blogging platform built with Django. It supports articles, categories, tags, comments, search functionality, and a clean, scalable architecture.
 
