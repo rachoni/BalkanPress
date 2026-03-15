@@ -38,7 +38,7 @@ class ArticleAdmin(admin.ModelAdmin):
     def featured_image_preview(self, obj):
         if obj.featured_image:
             return mark_safe(
-                '<img src="{url}" style="max-height: 50px; max-width: 50px" />',
+                f'<img src="{obj.featured_image.url}" style="max-height: 50px; max-width: 50px" />',
                 url=obj.featured_image.url,
             )
         return "No image"

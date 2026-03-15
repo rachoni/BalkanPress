@@ -171,10 +171,47 @@ def reverse_initial_data(apps, schema_editor):
     Article = apps.get_model("articles", "Article")
     Comment = apps.get_model("comments", "Comment")
 
-    Comment.objects.all().delete()
-    Article.objects.all().delete()
-    Tag.objects.all().delete()
-    Category.objects.all().delete()
+    category_names = [
+        "Politics",
+        "Technology",
+        "Sports",
+        "Culture",
+        "Economy",
+        "Lifestyle",
+        "World",
+        "Health",
+    ]
+
+    tag_names = [
+        "breaking-news",
+        "interview",
+        "analysis",
+        "opinion",
+        "review",
+        "health",
+        "sports",
+    ]
+
+    article_titles = [
+        "The future of AI in the Balkans",
+        "Championship Finals: A Night to Remember",
+        "Economic Summit 2025: Key Takeways",
+        "Local Artis Wins Prestigious Award",
+        "New Infrastructure Project Announced",
+        "AI Revolution in Balkan Healthcare",
+    ]
+
+    comment_authors = [
+        "TechEnthusiast",
+        "Skeptic101",
+        "FanBoy",
+        "Economist",
+    ]
+
+    Comment.objects.filter(author_name__in=comment_authors).delete()
+    Article.objects.filter(title__in=article_titles).delete()
+    Tag.objects.filter(name__in=tag_names).delete()
+    Category.objects.filter(name__in=category_names).delete()
 
 
 class Migration(migrations.Migration):

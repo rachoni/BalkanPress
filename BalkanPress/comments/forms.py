@@ -1,5 +1,7 @@
 from django import forms
-from django.core.exceptions import ValidationError
+
+from BalkanPress.common.helpers import strip_value
+from BalkanPress.common.validators import validate_min_length
 
 from .models import Comment
 
@@ -34,21 +36,23 @@ class CommentBaseForm(forms.ModelForm):
         }
         help_texts = {
             "author_name": "Enter your full name or display name.",
-            "body": "Share your thougts about this article.",
+            "body": "Share your thoughts about this article.",
         }
 
     def clean_author_name(self):
         author_name = self.cleaned_data.get("author_name")
-        return author_name.strip()
+        return strip_value(author_name)
 
     def clean_body(self):
         body = self.cleaned_data.get("body")
-        stripped_body = body.strip()
+        stripped_body = strip_value(body)
 
-        if len(body.strip()) < 5:
-            raise ValidationError(
-                "Comment must be at least 5 characters long.", code="comment_too_short"
-            )
+        validate_min_length(
+            stripped_body,
+            5,
+            message="Comment must be at least 5 characters long.",
+            code="comment_too_short",
+        )
         return stripped_body
 
 

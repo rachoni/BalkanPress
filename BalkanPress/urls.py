@@ -30,6 +30,10 @@ urlpatterns = [
     ),
     path("tags/", include(("BalkanPress.tags.urls", "tags"), namespace="tags")),
     path("about/", AboutView.as_view(), name="about"),
+    path(
+        "newsletter/",
+        include(("BalkanPress.newsletter.urls", "newsletter"), namespace="newsletter"),
+    ),
     path("", include(("BalkanPress.articles.urls", "articles"), namespace="articles")),
 ]
 

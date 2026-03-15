@@ -1,8 +1,8 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 
 from BalkanPress.common.forms import BootStrapModelForm, ReadOnlyModelForm
+from BalkanPress.common.validators import validate_confirmation
 
 from .models import Tag
 
@@ -41,6 +41,4 @@ class TagDeleteForm(ReadOnlyModelForm):
         ]
 
     def clean_confirmation(self):
-        if not self.cleaned_data.get("confirmation"):
-            raise ValidationError("You must confirm that this action cannot be undone.")
-        return True
+        return validate_confirmation(self.cleaned_data.get("confirmation"))

@@ -49,6 +49,7 @@ PROJECT_APPS = [
     "BalkanPress.categories",
     "BalkanPress.comments",
     "BalkanPress.common",
+    "BalkanPress.newsletter",
     "BalkanPress.tags",
 ]
 
@@ -101,6 +102,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "BalkanPress.common.context_processors.sidebar_data",
             ],
         },
     },

@@ -1,0 +1,91 @@
+<aside class="vstack gap-3">
+    {% include 'common/partials/_clock.html' %}
+    {% include 'common/partials/_weather.html' %}
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="h6 mb-2">Quick Links</h3>
+            <div class="d-grid gap-2">
+                <a href="{% url 'categories:create' %}" class="btn btn-sm btn-primary">Create Category</a>
+                <a href="{% url 'tags:create' %}" class="btn btn-sm btn-primary">Create Tag</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="h6 mb-2">Newsletter</h3>
+            <form method="post" action="{% url 'newsletter:subscribe' %}" class="vstack gap-2">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    aria-label="Email address"
+                    required
+                >
+                <button type="submit" class="btn btn-sm btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="h6 mb-2">Quick Stats</h3>
+            <ul class="list-unstyled small mb-3">
+                <li class="mb-1">Published Articles: <strong>{{ quick_stats.published_articles_count }}</strong></li>
+                <li class="mb-1">Categories: <strong>{{ quick_stats.categories_count }}</strong></li>
+                <li class="mb-1">Tags: <strong>{{ quick_stats.tags_count }}</strong></li>
+                <li>Approved Comments: <strong>{{ quick_stats.approved_comments_count }}</strong></li>
+            </ul>
+
+            <h3 class="h6 mb-2">Trending Categories</h3>
+            <ul class="list-unstyled small mb-3">
+                {% for category in trending_categories %}
+                    <li class="mb-1">
+                        <a class="text-decoration-none" href="{% url 'categories:category-articles' slug=category.slug %}">
+                            {{ category.name }}
+                        </a>
+                        <span class="text-muted">({{ category.published_articles_count }})</span>
+                    </li>
+                {% empty %}
+                    <li class="text-muted">No trending categories yet.</li>
+                {% endfor %}
+            </ul>
+
+            <h3 class="h6 mb-2">Trending Tags</h3>
+            <ul class="list-unstyled small mb-0">
+                {% for tag in trending_tags %}
+                    <li class="mb-1">
+                        <a class="text-decoration-none" href="{% url 'tags:tag-articles' slug=tag.slug %}">
+                            #{{ tag.name }}
+                        </a>
+                        <span class="text-muted">({{ tag.published_articles_count }})</span>
+                    </li>
+                {% empty %}
+                    <li class="text-muted">No trending tags yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="h6 mb-2">Latest Comments</h3>
+            <ul class="list-unstyled small mb-0">
+                {% for comment in latest_comments %}
+                    <li class="mb-2">
+                        <a class="text-decoration-none" href="{% url 'articles:detail' slug=comment.article.slug %}">
+                            {{ comment.author_name }}
+                        </a>
+                        <span class="text-muted">on {{ comment.article.title|truncatechars:28 }}</span>
+                    </li>
+                {% empty %}
+                    <li class="text-muted">No approved comments yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</aside>

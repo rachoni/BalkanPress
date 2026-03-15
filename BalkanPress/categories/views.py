@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from BalkanPress.articles.forms import ArticleSearchForm
 from BalkanPress.articles.models import Article
 
 from .forms import CategoryCreateForm, CategoryDeleteForm, CategoryEditForm
@@ -37,6 +38,8 @@ class BaseFilteredArticleListView(ListView):
         context = super().get_context_data(**kwargs)
         context["filter_object"] = self.filter_object
         context["filter_type"] = self.filter_type
+        context["search_form"] = ArticleSearchForm(self.request.GET or None)
+        context["search_query"] = self.request.GET.get("q", "")
         return context
 
 
@@ -77,3 +80,27 @@ class CategoryDeleteView(CategorySlugMixin, DeleteView):
     form_class = CategoryDeleteForm
     template_name = "categories/category-delete.html"
     success_url = reverse_lazy("categories:list")
+
+    def get_form(self):
+        return self.form_class(self.request.POST or None, instance=self.object)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if "form" not in context:
+            context["form"] = self.form_class(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object.delete()
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))

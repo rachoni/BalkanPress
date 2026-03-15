@@ -44,7 +44,7 @@
                             <div class="mb-3">
                                 <label for="{{ form.featured_image.id_for_label }}">Featured Image</label>
                                 {{ form.featured_image }}
-                                {% if form.featured_image.hеlp_text %}
+                                {% if form.featured_image.help_text %}
                                 	<div class="form-text">
                                         {{ form.featured_image.help_text }}
                                     </div>
@@ -59,7 +59,7 @@
                                 {{ form.summary }}
                                 {% if form.summary.help_text %}
                                 	<div class="form-text">
-                                    form.summary.help_text
+                                        {{ form.summary.help_text }}
                                     </div>
                                 {% endif %}
                                 {% for error in form.summary.errors %}

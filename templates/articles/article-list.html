@@ -105,110 +105,118 @@
             </a>
         </div>
 
-        {% if articles %}
-        	<div class="row g-4">
-                {% for article in articles %}
-                	<div class="col-12">
-                        <article class="card shadow-sm h-100">
-                            {% if article.featured_image %}
-                            	<img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }}">
-                            {% endif %}
+        <div class="row g-4">
+            <div class="col-12 col-lg-8">
+                {% if articles %}
+                    <div class="row g-4">
+                        {% for article in articles %}
+                            <div class="col-12">
+                                <article class="card shadow-sm h-100">
+                                    {% if article.featured_image %}
+                                        <img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }}">
+                                    {% endif %}
 
-                            <div class="card-body">
-                                <h2 class="h5 card-title mb-2">
-                                    <a class="text-decoration-none" href="{% url 'articles:detail' slug=article.slug %}">
-                                        {{ article.title }}
-                                    </a>
-                                </h2>
+                                    <div class="card-body">
+                                        <h2 class="h5 card-title mb-2">
+                                            <a class="text-decoration-none" href="{% url 'articles:detail' slug=article.slug %}">
+                                                {{ article.title }}
+                                            </a>
+                                        </h2>
 
-                                <p class="text-muted small mb-2">
-                                    {{ article.created_at|date:"M d, Y" }} | {{ article.content|reading_time }} min read | {{ article.content|word_count }} words
-                                </p>
+                                        <p class="text-muted small mb-2">
+                                            {{ article.created_at|date:"M d, Y" }} | {{ article.content|reading_time }} min read | {{ article.content|word_count }} words
+                                        </p>
 
-                                <p class="card-text">
-                                    {{ article.summary|preview:180 }}
-                                </p>
+                                        <p class="card-text">
+                                            {{ article.summary|preview:180 }}
+                                        </p>
 
-                                <div class="mb-2">
-                                    {% for category in article.categories.all %}
-                                        <a href="{% url 'categories:category-articles' slug=category.slug %}" class="badge text-bg-secondary text-decoration-none">
-                                            {{ category.name }}
+                                        <div class="mb-2">
+                                            {% for category in article.categories.all %}
+                                                <a href="{% url 'categories:category-articles' slug=category.slug %}" class="badge text-bg-secondary text-decoration-none">
+                                                    {{ category.name }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div>
+                                            {% for tag in article.tags.all %}
+                                                <a href="{% url 'tags:tag-articles' slug=tag.slug %}" class="badge text-bg-light border text-decoration-none">
+                                                    #{{ tag.name }}
+                                                </a>
+                                            {% empty %}
+                                                <span class="text-muted small">
+                                                    No tags
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+                                        <a href="{% url 'articles:detail' slug=article.slug %}" class="btn btn-outline-primary btn-sm">
+                                            Read More
                                         </a>
-                                    {% endfor %}
-                                </div>
-
-                                <div>
-                                    {% for tag in article.tags.all %}
-                                    	<a href="{% url 'tags:tag-articles' slug=tag.slug %}" class="badge text-bg-light border text-decoration-none">
-                                            #{{ tag.name }}
-                                        </a>
-                                    {% empty %}
-                                        <span class="text-muted small">
-                                            No tags
-                                        </span>
-                                    {% endfor %}
-                                </div>
+                                    </div>
+                                </article>
                             </div>
-
-                            <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
-                                <a href="{% url 'articles:detail' slug=article.slug %}" class="btn btn-outline-primary btn-sm">
-                                    Read More
-                                </a>
-                            </div>
-                        </article>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+
+                    {% if is_paginated %}
+                        <nav class="mt-4" aria-label="Pagination">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                                            First
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                                            Previous
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                                    </span>
+                                </li>
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                                            Next
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                                            Last
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-light border text-center py-4">
+                        <h2 class="h5 mb-2">
+                            No articles found
+                        </h2>
+                        <p class="text-muted mb-3">
+                            There are no published articles matching this view yet.
+                        </p>
+                        <a href="{% url 'articles:create' %}" class="btn btn-primary btn-sm">
+                            Create First Article
+                        </a>
+                    </div>
+                {% endif %}
             </div>
 
-            {% if is_paginated %}
-            	<nav class="mt-4" aria-label="Pagination">
-                    <ul class="pagination justify-content-center">
-                        {% if page_obj.has_previous %}
-                        	<li class="page-item">
-                                <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
-                                    First
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
-                                    Previous
-                                </a>
-                            </li>
-                        {% endif %}
-
-                        <li class="page-item disabled">
-                            <span class="page-link">
-                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                            </span>
-                        </li>
-
-                        {% if page_obj.has_next %}
-                        	<li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
-                                    Next
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
-                                    Last
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            {% endif %}
-        {% else %}
-            <div class="alert alert-light border text-center py-4">
-                <h2 class="h5 mb-2">
-                    No articles found
-                </h2>
-                <p class="text-muted mb-3">
-                    There are no published articles matching this view yet.
-                </p>
-                <a href="{% url 'articles:create' %}" class="btn btn-primary btn-sm">
-                    Create First Article
-                </a>
+            <div class="col-12 col-lg-4">
+                {% include 'articles/_sidebar.html' %}
             </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock %}
