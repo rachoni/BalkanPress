@@ -33,7 +33,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     os.getenv("DB_HOST"),
     os.getenv("ALLOWED_LOCAL_HOST"),
-    "https://balkanpress-cuegbqejasgpc0at.swedencentral-01.azurewebsites.net"
+    os.getenv("ALLOWED_DOMAIN_HOST"),
 ]
 
 CSRF_TRUSTED_ORIGINS = [
