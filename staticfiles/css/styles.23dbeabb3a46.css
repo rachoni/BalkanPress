@@ -1,0 +1,115 @@
+:root {
+    --bp-body-bg: #f6f8fc;
+    --bp-text: #1f2a37;
+    --bp-muted: #6b7280;
+    --bp-surface: #ffffff;
+    --bp-border: #e5e7eb;
+    --bp-brand: #0d6efd;
+    --bp-brand-dark: #0b5ed7;
+    --bp-shadow: 0 10px 26px rgba(17, 24, 39, 0.08);
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background: linear-gradient(180deg, #f8faff 0%, var(--bp-body-bg) 100%);
+    color: var(--bp-text);
+}
+
+main {
+    min-height: calc(100vh - 220px);
+}
+
+.navbar-brand img {
+    width: auto;
+    object-fit: contain;
+}
+
+.navbar .nav-link {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+    opacity: 0.82;
+}
+
+.container {
+    max-width: 1040px;
+}
+
+.card {
+    border: 1px solid var(--bp-border);
+    box-shadow: var(--bp-shadow);
+    border-radius: 0.8rem;
+}
+
+.card-img-top {
+    max-height: 420px;
+    object-fit: cover;
+}
+
+.card-title a {
+    color: inherit;
+}
+
+.card-title a:hover {
+    color: var(--bp-brand-dark);
+}
+
+.btn {
+    border-radius: 0.55rem;
+}
+
+.badge {
+    border-radius: 0.45rem;
+    padding: 0.42rem 0.58rem;
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    border-color: #d1d5db;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #9ec5fe;
+    box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.2);
+}
+
+.text-muted {
+    color: var(--bp-muted) !important;
+}
+
+.pagination .page-link {
+    border-radius: 0.45rem;
+    margin: 0 0.15rem;
+}
+
+footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media (max-width: 991.98px) {
+    .navbar .d-flex[role="search"] {
+        margin-top: 0.75rem;
+    }
+
+    .card-img-top {
+        max-height: 320px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    main.py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .card {
+        border-radius: 0.7rem;
+    }
+}
