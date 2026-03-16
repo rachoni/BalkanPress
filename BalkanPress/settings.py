@@ -27,20 +27,11 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = [
-    os.getenv("DB_HOST"),
-    os.getenv("ALLOWED_LOCAL_HOST"),
-    os.getenv("ALLOWED_DOMAIN_HOST"),
-]
+ALLOWED_HOSTS = [host for host in os.getenv("ALLOWED_HOSTS").split(',') if host]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1",
-    "http://localhost",
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-]
+CSRF_TRUSTED_ORIGINS = [host for host in os.getenv("CSRF_TRUSTED_ORIGINS").split(',') if host]
 
 # Application definition
 
@@ -161,17 +152,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "staticsrc",
+    BASE_DIR / "static",
 ]
+
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
 # Add compression and caching support
 STORAGES = {
     # ...
     "staticfiles": {
         "BACKEND":
-            "whitenoise.storage.CompressedManifestStaticFilesStorage",
+"whitenoise.storage.CompressedManifestStaticFilesStorage",
     }
 }
 
