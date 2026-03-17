@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "gunicorn",
 ] + PROJECT_APPS
 
 JAZZMIN_SETTINGS = {
@@ -160,10 +162,8 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
 # Add compression and caching support
 STORAGES = {
-    # ...
     "staticfiles": {
-        "BACKEND":
-"whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     }
 }
 
