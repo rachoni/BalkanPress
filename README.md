@@ -260,13 +260,17 @@ Search covers:
 This project already includes an `.env.example` file. Keep only safe placeholder values there:
 
 ```env
-SECRET_KEY=change-me
-DB_NAME=balkan_press_db
-DB_USER=postgres
-DB_PASSWORD=change-me
-DB_HOST=127.0.0.1
-DB_PORT=5432
-ALLOWED_LOCAL_HOST=localhost
+SECRET_KEY=
+DEBUG=
+
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+
+ALLOWED_HOSTS=
+CSRF_TRUSTED_ORIGINS=
 ```
 
 ---
