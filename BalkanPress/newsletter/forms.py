@@ -25,7 +25,7 @@ class NewsletterSubscribeForm(forms.ModelForm):
             "email": {
                 "required": "Please enter an email address.",
                 "invalid": "Please enter a valid email address.",
-                "unique": "This email is already subscribed.",
+                "unique": "The email is already subscribed.",
             }
         }
 

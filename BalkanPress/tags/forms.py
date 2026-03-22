@@ -36,9 +36,7 @@ class TagDeleteForm(ReadOnlyModelForm):
 
     class Meta:
         model = Tag
-        fields = [
-            "name",
-        ]
+        fields = ["name"]
 
     def clean_confirmation(self):
         return validate_confirmation(self.cleaned_data.get("confirmation"))

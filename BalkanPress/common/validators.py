@@ -7,8 +7,7 @@ def validate_min_length(value, min_length, message=None, code="min_length"):
 
     if len(value) < min_length:
         raise ValidationError(
-            message
-            or f"Ensure this value has at least {min_length} characters.",
+            message or f"Ensure this value has at least {min_length} characters.",
             code=code,
         )
 

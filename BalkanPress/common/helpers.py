@@ -1,4 +1,3 @@
-
 def strip_value(value):
     if isinstance(value, str):
         return value.strip()

@@ -23,7 +23,10 @@ class ArticleSearchForm(forms.Form):
         required=False,
         label="",
         widget=forms.TextInput(
-            attrs={"placeholder": "Search articles...", "class": "form-control"}
+            attrs={
+                "placeholder": "Search articles...",
+                "class": "form-control",
+            }
         ),
     )
 

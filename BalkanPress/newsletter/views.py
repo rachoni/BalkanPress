@@ -14,7 +14,7 @@ class NewsletterSubscribeView(View):
 
         if form.is_valid():
             form.save()
-            messages.success(request, "You have subscribed successfully.")
+            messages.success(request, "You havesubscribed successfully.")
         else:
             email_errors = form.errors.get("email")
             if email_errors:
