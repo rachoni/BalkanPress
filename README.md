@@ -242,16 +242,17 @@ Search covers:
 
 ## Environment Variables
 
-| Variable             | Description         | Default           |
-|----------------------|---------------------|-------------------|
-| `SECRET_KEY`         | Django secret key   | Required          |
-| `DEBUG`              | Debug mode          | `True`            |
-| `DB_NAME`            | Database name       | `balkan_press_db` |
-| `DB_USER`            | Database user       | `postgres`        |
-| `DB_PASSWORD`        | Database password   | Required          |
-| `DB_HOST`            | Database host       | `127.0.0.1`       |
-| `DB_PORT`            | Database port       | `5432`            |
-| `ALLOWED_LOCAL_HOST` | Allowed local host  | `localhost`       |
+| Variable               | Description                 | Default           |
+|------------------------|-----------------------------|-------------------|
+| `SECRET_KEY`           | Django secret key           | Required          |
+| `DEBUG`                | Debug mode                  | `False`           |
+| `DB_NAME`              | Database name               | `balkan_press_db` |
+| `DB_USER`              | Database user               | `postgres`        |
+| `DB_PASSWORD`          | Database password           | Required          |
+| `DB_HOST`              | Database host               | `localhost`       |
+| `DB_PORT`              | Database port               | `5432`            |
+| `ALLOWED_HOSTS`         | Allowed hosts (comma list)  | Required          |
+| `CSRF_TRUSTED_ORIGINS` | Trusted origins (comma list)| Required          |
 
 ---
 
