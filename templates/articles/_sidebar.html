@@ -4,11 +4,52 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="h6 mb-2">Quick Links</h3>
-            <div class="d-grid gap-2">
-                <a href="{% url 'categories:create' %}" class="btn btn-sm btn-primary">Create Category</a>
-                <a href="{% url 'tags:create' %}" class="btn btn-sm btn-primary">Create Tag</a>
-            </div>
+            <h3 class="h6 mb-2">Find Articles</h3>
+            <form class="row g-2" method="get" action="{% url 'articles:search' %}">
+                <div class="col-12">
+                    <input class="form-control" type="search" name="q" placeholder="Search articles..." value="{{ request.GET.q|default:'' }}" aria-label="Search articles">
+                </div>
+
+                <div class="col-12">
+                    <select class="form-select" name="category" aria-label="Filter by category">
+                        <option value="">All categories</option>
+                        {% for c in search_form.fields.category.queryset %}
+                        	<option value="{{ c.pk }}" {% if request.GET.category == c.pk|stringformat:"s" %}
+                        		selected
+                        	{% endif %}>
+                                {{ c.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <select class="form-select" name="tag" aria-label="Filter by tag">
+                        <option value="">All tags</option>
+                        {% for t in search_form.fields.tag.queryset %}
+                        	<option value="{{ t.pk }}" {% if request.GET.tag == t.pk|stringformat:"s" %}
+                        		selected
+                        	{% endif %}>
+                                {{ t.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <select class="form-select" name="sort" aria-label="Sort articles">
+                        <option value="newest" {% if request.GET.sort == 'newest' or not request.GET.sort %}selected{% endif %}>Newest</option>
+                        <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest</option>
+                        <option value="title_asc" {% if request.GET.sort == 'title_asc' %}selected{% endif %}>Title A-Z</option>
+                        <option value="title_desc" {% if request.GET.sort == 'title_desc' %}selected{% endif %}>Title Z-A</option>
+                        <option value="most_commented" {% if request.GET.sort == 'most_commented' %}selected{% endif %}>Most Commented</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <button class="btn btn-outline-primary w-100" type="submit">Go</button>
+                </div>
+            </form>
         </div>
     </div>
 

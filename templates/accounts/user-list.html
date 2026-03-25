@@ -1,0 +1,61 @@
+{% extends 'common/base.html' %}
+
+{% block title %}Users - BalkanPress{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Users</h1>
+        <a href="{% url 'articles:list' %}" class="btn btn-outline-secondary btn-sm">Back to Articles</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {% if users %}
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Display name</th>
+                                <th>Author</th>
+                                <th>Staff</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email|default:"-" }}</td>
+                                    <td>{{ user.display_name|default:"-" }}</td>
+                                    <td>
+                                        {% if user.is_author %}
+                                            <span class="badge bg-success">Yes</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">No</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if user.is_staff %}
+                                            <span class="badge bg-primary">Yes</span>
+                                        {% else %}
+                                            <span class="badge bg-light text-dark">No</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'accounts:user-delete' user.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted mb-0">No users found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

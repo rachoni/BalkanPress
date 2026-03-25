@@ -1,0 +1,59 @@
+{% extends 'common/base.html' %}
+
+{% block title %}Profile - BalkanPress{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">Profile</h1>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'accounts:profile-edit' %}" class="btn btn-primary btn-sm">Edit Profile</a>
+                    <a href="{% url 'accounts:profile-delete' %}" class="btn btn-outline-danger btn-sm">Delete Profile</a>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-12 col-md-4 text-center">
+                            {% if profile.avatar %}
+                                <img src="{{ profile.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle" style="max-width: 180px;">
+                            {% else %}
+                                <div class="bg-light border rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 180px; height: 180px;">
+                                    <span class="text-muted">No avatar</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <h2 class="h5">{{ profile.display_name|default:profile.username }}</h2>
+                            <p class="mb-1 text-muted">@{{ profile.username }}</p>
+                            <p class="mb-2">{{ profile.email|default:"No email" }}</p>
+
+                            {% if profile.bio %}
+                                <p class="mb-3">{{ profile.bio }}</p>
+                            {% else %}
+                                <p class="text-muted mb-3">No bio provided.</p>
+                            {% endif %}
+
+                            <div class="d-flex gap-2">
+                                <span class="badge {% if profile.is_author %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {% if profile.is_author %}Author{% else %}Reader{% endif %}
+                                </span>
+                                <span class="badge {% if profile.is_staff %}bg-primary{% else %}bg-light text-dark{% endif %}">
+                                    {% if profile.is_staff %}Staff{% else %}User{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'articles:list' %}" class="btn btn-outline-secondary">Back to Articles</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

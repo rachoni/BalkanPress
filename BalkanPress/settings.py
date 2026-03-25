@@ -44,6 +44,8 @@ PROJECT_APPS = [
     "BalkanPress.common",
     "BalkanPress.newsletter",
     "BalkanPress.tags",
+    "BalkanPress.accounts",
+    "BalkanPress.api",
 ]
 
 INSTALLED_APPS = [
@@ -71,6 +73,8 @@ JAZZMIN_SETTINGS = {
         "auth.group": "fas fa-users",
     },
 }
+
+AUTH_USER_MODEL = "accounts.AppUser"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
