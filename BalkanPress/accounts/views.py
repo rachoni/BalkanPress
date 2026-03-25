@@ -4,18 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, FormView, UpdateView, DeleteView, ListView
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView)
 
-from .forms import (
-    RegisterForm,
-    LoginForm,
-    LogoutForm,
-    ProfileEditForm,
-    ProfileDeleteForm,
-)
+from .forms import (LoginForm, LogoutForm, ProfileDeleteForm, ProfileEditForm,
+                    RegisterForm)
 
 # Create your views here.
 UserModel = get_user_model()
+
 
 class BaseProfileMixin(LoginRequiredMixin):
     model = UserModel
@@ -23,15 +20,18 @@ class BaseProfileMixin(LoginRequiredMixin):
     def get_object(self, queryset=None):
         return self.request.user
 
+
 class RegisterView(CreateView):
     model = UserModel
     form_class = RegisterForm
     template_name = "accounts/register.html"
     success_url = reverse_lazy("accounts:login")
 
+
 class LoginView(DjangoLoginView):
     template_name = "accounts/login.html"
     authentication_form = LoginForm
+
 
 class LogoutView(LoginRequiredMixin, FormView):
     form_class = LogoutForm
@@ -42,14 +42,17 @@ class LogoutView(LoginRequiredMixin, FormView):
         auth_logout(self.request)
         return super().form_valid(form)
 
+
 class ProfileView(BaseProfileMixin, DetailView):
     template_name = "accounts/profile.html"
     context_object_name = "profile"
+
 
 class ProfileEditView(BaseProfileMixin, UpdateView):
     form_class = ProfileEditForm
     template_name = "accounts/profile-edit.html"
     success_url = reverse_lazy("accounts:profile")
+
 
 class ProfileDeleteView(BaseProfileMixin, UpdateView):
     form_class = ProfileDeleteForm
@@ -62,6 +65,7 @@ class ProfileDeleteView(BaseProfileMixin, UpdateView):
         user.delete()
         return redirect(self.get_success_url())
 
+
 # Admin-only list of users
 class UserListView(UserPassesTestMixin, ListView):
     model = UserModel
@@ -71,6 +75,7 @@ class UserListView(UserPassesTestMixin, ListView):
 
     def test_func(self):
         return self.request.user.is_staff
+
 
 # Admin-only delete any user
 class AdminUserDeleteView(UserPassesTestMixin, DeleteView):

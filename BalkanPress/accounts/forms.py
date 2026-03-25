@@ -7,6 +7,7 @@ from BalkanPress.common.validators import validate_confirmation
 
 UserModel = get_user_model()
 
+
 class ProfileBaseForm(BootStrapModelForm):
     class Meta:
         model = UserModel
@@ -29,6 +30,7 @@ class ProfileBaseForm(BootStrapModelForm):
             "is_author": "Mark if you want to publish articles",
         }
 
+
 class RegisterForm(UserCreationForm):
     class Meta:
         model = UserModel
@@ -40,40 +42,21 @@ class RegisterForm(UserCreationForm):
             "password2",
         )
         widgets = {
-            "username": forms.TextInput(
-                attrs={
-                    "placeholder": "Username"
-                }
-            ),
-            "email": forms.EmailInput(
-                attrs={
-                    "placeholder": "Email"
-                }
-            ),
-            "display_name": forms.TextInput(
-                attrs={
-                    "placeholder": "Display name"
-                }
-            ),
+            "username": forms.TextInput(attrs={"placeholder": "Username"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Email"}),
+            "display_name": forms.TextInput(attrs={"placeholder": "Display name"}),
         }
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "autofocus": True,
-                "placeholder": "Username"
-            }
-        )
+        widget=forms.TextInput(attrs={"autofocus": True, "placeholder": "Username"})
     )
     password = forms.CharField(
         strip=False,
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password"
-            }
-        ),
+        widget=forms.PasswordInput(attrs={"placeholder": "Password"}),
     )
+
 
 class LogoutForm(forms.Form):
     confirm = forms.BooleanField(
@@ -81,8 +64,10 @@ class LogoutForm(forms.Form):
         label="I want to log out.",
     )
 
+
 class ProfileEditForm(ProfileBaseForm):
     pass
+
 
 class ProfileDeleteForm(ReadOnlyModelForm):
     confirmation = forms.BooleanField(
@@ -96,8 +81,4 @@ class ProfileDeleteForm(ReadOnlyModelForm):
         pass
 
     def clean_confirmation(self):
-        return validate_confirmation(
-            self.cleaned_data.get(
-                "confirmation"
-            )
-        )
+        return validate_confirmation(self.cleaned_data.get("confirmation"))

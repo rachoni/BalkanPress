@@ -34,10 +34,11 @@ urlpatterns = [
     path("about/", AboutView.as_view(), name="about"),
     path(
         "newsletter/",
-        include(("BalkanPress.newsletter.urls", "newsletter"), namespace="newsletter")
+        include(("BalkanPress.newsletter.urls", "newsletter"), namespace="newsletter"),
     ),
-    path("accounts/",
-         include(("BalkanPress.accounts.urls", "accounts"), namespace="accounts")
+    path(
+        "accounts/",
+        include(("BalkanPress.accounts.urls", "accounts"), namespace="accounts"),
     ),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
