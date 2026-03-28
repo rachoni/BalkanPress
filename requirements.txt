@@ -32,6 +32,7 @@ django-crispy-forms==2.5
 django-jazzmin==3.0.2
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
+docopt==0.6.2
 docutils==0.21.2
 drf-spectacular==0.29.0
 executing==2.2.1
@@ -69,6 +70,8 @@ pathspec==1.0.4
 pexpect==4.9.0
 phonenumbers==9.0.19
 pillow==12.1.1
+pip-check-reqs==2.5.6
+pipreqs==0.4.13
 platformdirs==4.9.2
 prompt_toolkit==3.0.52
 propcache==0.4.1
@@ -109,4 +112,5 @@ wcwidth==0.6.0
 wheel==0.43.0
 whitenoise==6.12.0
 xyzservices==2025.11.0
+yarg==0.1.10
 yarl==1.22.0
