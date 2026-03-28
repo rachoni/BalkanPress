@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -102,11 +103,15 @@ class ArticleDetailView(CommentFormMixin, ArticleSlugMixin, DetailView):
         return context
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleCreateForm
     template_name = "articles/article-create.html"
     success_url = reverse_lazy("articles:list")
+
+    def form_valid(self, form):
+        form.instance.author =self.request.user
+        return super().form_valid(form)
 
 
 class ArticleEditView(ArticleSlugMixin, UpdateView):

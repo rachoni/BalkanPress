@@ -45,7 +45,6 @@ PROJECT_APPS = [
     "BalkanPress.newsletter",
     "BalkanPress.tags",
     "BalkanPress.accounts",
-    "BalkanPress.api",
 ]
 
 INSTALLED_APPS = [
