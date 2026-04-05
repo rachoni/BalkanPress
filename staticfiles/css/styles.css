@@ -28,6 +28,26 @@ main {
     object-fit: contain;
 }
 
+.navbar-brand {
+    margin-right: 1.25rem;
+}
+
+.navbar-nav .nav-link {
+    white-space: nowrap;
+}
+
+.navbar-nav {
+    column-gap: 0.35rem;
+}
+
+.navbar-nav .nav-item:first-child {
+    margin-left: 0.75rem;
+}
+
+.navbar-nav .nav-item:last-child {
+    margin-right: 1.5rem;
+}
+
 .navbar .nav-link {
     transition: opacity 0.2s ease-in-out;
 }

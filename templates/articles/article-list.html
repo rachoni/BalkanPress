@@ -76,7 +76,7 @@
                                         </h2>
 
                                         <p class="text-muted small mb-2">
-                                            {{ article.created_at|date:"M d, Y" }} | {{ article.content|reading_time }} min read | {{ article.content|word_count }} words
+                                            {{ article.created_at|date:"M d, Y" }} | By {{ article.author.username }} | {{ article.content|reading_time }} min read | {{ article.content|word_count }} words
                                         </p>
 
                                         <p class="card-text">

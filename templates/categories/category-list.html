@@ -33,12 +33,16 @@
                                     <a href="{% url 'categories:category-articles' slug=category.slug %}" class="btn btn-outline-primary btn-sm">
                                         View Articles
                                     </a>
-                                    <a href="{% url 'categories:edit' slug=category.slug %}" class="btn btn-outline-warning btn-sm">
-                                        Edit
-                                    </a>
-                                    <a href="{% url 'categories:delete' slug=category.slug %}" class="btn btn-outline-danger btn-sm">
-                                        Delete
-                                    </a>
+                                    {% if request.user.is_authenticated %}
+                                        {% if category.author_id == request.user.id or request.user.is_staff or request.user.is_superuser %}
+                                            <a href="{% url 'categories:edit' slug=category.slug %}" class="btn btn-outline-warning btn-sm">
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'categories:delete' slug=category.slug %}" class="btn btn-outline-danger btn-sm">
+                                                Delete
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

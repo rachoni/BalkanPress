@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -63,20 +64,37 @@ class CategorySlugMixin:
     slug_url_kwarg = "slug"
 
 
-class CategoryCreateView(CreateView):
+class AuthorOrStaffMixin(UserPassesTestMixin):
+    def test_func(self):
+        category = self.get_object()
+        user = self.request.user
+        return user.is_authenticated and (
+            category.author == user or user.is_staff or user.is_superuser
+        )
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryCreateForm
     template_name = "categories/category-create.html"
     success_url = reverse_lazy("categories:list")
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
-class CategoryEditView(CategorySlugMixin, UpdateView):
+
+class CategoryEditView(
+    AuthorOrStaffMixin, LoginRequiredMixin, CategorySlugMixin, UpdateView
+):
     form_class = CategoryEditForm
     template_name = "categories/category-edit.html"
     success_url = reverse_lazy("categories:list")
 
 
-class CategoryDeleteView(CategorySlugMixin, DeleteView):
+class CategoryDeleteView(
+    AuthorOrStaffMixin, LoginRequiredMixin, CategorySlugMixin, DeleteView
+):
     form_class = CategoryDeleteForm
     template_name = "categories/category-delete.html"
     success_url = reverse_lazy("categories:list")

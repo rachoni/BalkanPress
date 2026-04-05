@@ -33,12 +33,16 @@
                                     <a href="{% url 'tags:tag-articles' slug=tag.slug %}" class="btn btn-outline-primary btn-sm">
                                         View Articles
                                     </a>
-                                    <a href="{% url 'tags:edit' slug=tag.slug %}" class="btn btn-outline-warning btn-sm">
-                                        Edit
-                                    </a>
-                                    <a href="{% url 'tags:delete' slug=tag.slug %}" class="btn btn-outline-danger btn-sm">
-                                        Delete
-                                    </a>
+                                    {% if request.user.is_authenticated %}
+                                        {% if tag.author_id == request.user.id or request.user.is_staff or request.user.is_superuser %}
+                                            <a href="{% url 'tags:edit' slug=tag.slug %}" class="btn btn-outline-warning btn-sm">
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'tags:delete' slug=tag.slug %}" class="btn btn-outline-danger btn-sm">
+                                                Delete
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -29,20 +30,33 @@ class TagSlugMixin:
     slug_url_kwarg = "slug"
 
 
-class TagCreateView(CreateView):
+class AuthorOrStaffMixin(UserPassesTestMixin):
+    def test_func(self):
+        tag = self.get_object()
+        user = self.request.user
+        return user.is_authenticated and (
+            tag.author == user or user.is_staff or user.is_superuser
+        )
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     form_class = TagCreateForm
     template_name = "tags/tag-create.html"
     success_url = reverse_lazy("tags:list")
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
-class TagEditView(TagSlugMixin, UpdateView):
+
+class TagEditView(AuthorOrStaffMixin, LoginRequiredMixin, TagSlugMixin, UpdateView):
     form_class = TagEditForm
     template_name = "tags/tag-edit.html"
     success_url = reverse_lazy("tags:list")
 
 
-class TagDeleteView(TagSlugMixin, DeleteView):
+class TagDeleteView(AuthorOrStaffMixin, LoginRequiredMixin, TagSlugMixin, DeleteView):
     form_class = TagDeleteForm
     template_name = "tags/tag-delete.html"
     success_url = reverse_lazy("tags:list")

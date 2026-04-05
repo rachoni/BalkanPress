@@ -40,7 +40,8 @@ class Article(TimeStampModel):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.pk:
+        if not self.slug:
             super().save(*args, **kwargs)
-        self.slug = slugify(f"{self.title}-{self.pk}")
-        super().save(*args, **kwargs)
+            self.slug = slugify(f"{self.title}-{self.pk}")[:50]
+            return super().save(update_fields=["slug"])
+        return super().save(*args, **kwargs)

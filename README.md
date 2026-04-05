@@ -2,7 +2,7 @@
 
 <img width="1313" height="604" alt="BalkanPress Screenshot" src="staticfiles/images/readme-screenshot.png" />
 
-BalkanPress is a production-ready news and blogging platform built with Django. It supports articles, categories, tags, comments, search functionality, and a clean, scalable architecture.
+BalkanPress is a production-ready news and blogging platform built with Django. It supports articles, categories, tags, comments, search functionality, user accounts, and a clean, scalable architecture.
 
 
 ---
@@ -18,7 +18,11 @@ BalkanPress is a production-ready news and blogging platform built with Django. 
 - Category & Tag filtering
 - Full text search (title, summary, content, categories, tags)
 - Comment system (with moderation support)
+- User registration, login, logout, and profile management
+- Owner-managed CRUD permissions (author/staff)
+- User groups with permissions (Authors, Moderators)
 - Newsletter subscription
+- Asynchronous newsletter dispatch (Celery)
 - Pagination
 - Reading time calculation
 - Bootstrap 5 UI
@@ -27,6 +31,8 @@ BalkanPress is a production-ready news and blogging platform built with Django. 
 - Reusable form mixins
 - Clean template structure
 - Optimised querysets (select_related, prefetch_related)
+- REST API (articles, categories, tags) with JWT authentication
+- Custom error pages (404, 500)
 
 ---
 
@@ -64,6 +70,15 @@ BalkanPress/
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
+│   ├── accounts/
+│   │   ├── migrations/
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
 │   ├── common/
 │   │   ├── migrations/
 │   │   ├── admin.py
@@ -74,6 +89,14 @@ BalkanPress/
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   ├── validators.py
+│   │   └── views.py
+│   ├── api/
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── permissions.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
 │   │   └── views.py
 │   ├── tags/
 │   │   ├── migrations/
@@ -164,8 +187,10 @@ Search covers:
 
 - Python 3.13
 - Django 6.0.2
+- Django REST Framework + JWT
 - Bootstrap 5
 - PostgreSQL
+- Celery + Redis
 - HTML/CSS
 - JavaScript (minimal)
 
@@ -240,6 +265,32 @@ Search covers:
 
 ---
 
+## Optional: MailHog (local email testing)
+
+1. **Run MailHog in Docker**
+   ```bash
+   docker run -d --name mailhog -p 1025:1025 -p 8025:8025 mailhog/mailhog
+   ```
+
+2. **Open MailHog UI**
+   - http://localhost:8025
+
+---
+
+## Optional: Celery (local async tasks)
+
+1. **Run Redis in Docker**
+   ```bash
+   docker run -d --name redis -p 6379:6379 redis
+   ```
+
+2. **Start Celery worker**
+   ```bash
+   celery -A BalkanPress worker -l info
+   ```
+
+---
+
 ## Environment Variables
 
 | Variable               | Description                 | Default           |
@@ -253,6 +304,13 @@ Search covers:
 | `DB_PORT`              | Database port               | `5432`            |
 | `ALLOWED_HOSTS`         | Allowed hosts (comma list)  | Required          |
 | `CSRF_TRUSTED_ORIGINS` | Trusted origins (comma list)| Required          |
+| `EMAIL_BACKEND`        | Email backend               | SMTP              |
+| `EMAIL_HOST`           | SMTP host                   | `localhost`       |
+| `EMAIL_PORT`           | SMTP port                   | `1025`            |
+| `EMAIL_HOST_USER`      | SMTP user                   | empty             |
+| `EMAIL_HOST_PASSWORD`  | SMTP password               | empty             |
+| `EMAIL_USE_TLS`        | Use TLS                     | `False`           |
+| `DEFAULT_FROM_EMAIL`   | Default sender              | required          |
 
 ---
 
@@ -297,6 +355,7 @@ CSRF_TRUSTED_ORIGINS=
 - **XSS Protection**: Automatic template escaping
 - **Environment Variables**: Sensitive data stored in .env file
 - **Form Validation**: Server-side validation with custom clean methods
+- **JWT Authentication**: API uses JWT tokens
 
 ### ⚠️ Partially Implemented / Configuration Required:
 - **Client-side Validation**: HTML5 attributes added to form fields

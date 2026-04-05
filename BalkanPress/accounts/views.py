@@ -72,6 +72,7 @@ class UserListView(UserPassesTestMixin, ListView):
     template_name = "accounts/user-list.html"
     context_object_name = "users"
     paginate_by = 20
+    ordering = ("id",)
 
     def test_func(self):
         return self.request.user.is_staff

@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -7,6 +7,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from django.views.generic.edit import FormMixin
 
 from BalkanPress.comments.forms import CommentCreateForm
+from BalkanPress.newsletter.tasks import send_newsletter
 
 from .forms import (ArticleCreateForm, ArticleDeleteForm, ArticleEditForm,
                     ArticleSearchForm)
@@ -85,6 +86,15 @@ class ArticleSlugMixin:
     slug_url_kwarg = "slug"
 
 
+class AuthorOrStaffMixin(UserPassesTestMixin):
+    def test_func(self):
+        article = self.get_object()
+        user = self.request.user
+        return user.is_authenticated and (
+            article.author == user or user.is_staff or user.is_superuser
+        )
+
+
 class ArticleDetailView(CommentFormMixin, ArticleSlugMixin, DetailView):
     context_object_name = "article"
     template_name = "articles/article-detail.html"
@@ -110,17 +120,28 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("articles:list")
 
     def form_valid(self, form):
-        form.instance.author =self.request.user
-        return super().form_valid(form)
+        form.instance.author = self.request.user
+        response = super().form_valid(form)
+
+        send_newsletter.delay(
+            subject=f"New article: {form.instance.title}",
+            message=form.instance.summary,
+        )
+
+        return response
 
 
-class ArticleEditView(ArticleSlugMixin, UpdateView):
+class ArticleEditView(
+    AuthorOrStaffMixin, LoginRequiredMixin, ArticleSlugMixin, UpdateView
+):
     form_class = ArticleEditForm
     template_name = "articles/article-edit.html"
     success_url = reverse_lazy("articles:list")
 
 
-class ArticleDeleteView(ArticleSlugMixin, DeleteView):
+class ArticleDeleteView(
+    AuthorOrStaffMixin, LoginRequiredMixin, ArticleSlugMixin, DeleteView
+):
     form_class = ArticleDeleteForm
     template_name = "articles/article-delete.html"
     context_object_name = "article"

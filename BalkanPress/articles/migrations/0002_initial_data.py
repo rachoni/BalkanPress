@@ -8,6 +8,16 @@ def create_initial_data(apps, schema_editor):
     Tag = apps.get_model("tags", "Tag")
     Article = apps.get_model("articles", "Article")
     Comment = apps.get_model("comments", "Comment")
+    User = apps.get_model("accounts", "AppUser")
+    seed_user, _ = User.objects.get_or_create(
+        username="seed_admin",
+        defaults={
+            "email": "seed_admin@example.com",
+            "is_staff": True,
+            "is_superuser": True,
+        },
+    )
+    seed_user_id = seed_user.id
 
     # 2. Create Categories
     categories_data = [
@@ -26,6 +36,7 @@ def create_initial_data(apps, schema_editor):
         category = Category.objects.create(
             name=name,
             slug=slugify(name),
+            author_id=seed_user_id,
         )
         categories[name] = category
 
@@ -45,6 +56,7 @@ def create_initial_data(apps, schema_editor):
         tag = Tag.objects.create(
             name=name,
             slug=slugify(name),
+            author_id=seed_user_id,
         )
         tags[name] = tag
 
@@ -107,10 +119,11 @@ def create_initial_data(apps, schema_editor):
             summary=data["summary"],
             content=data["content"],
             is_published=data["published"],
+            author_id=seed_user_id,
             # Slug is usually handled by save() method, but in migrations save() logic isn't always triggered automatically depending on implementation.
             # However, since we use apps.get_model, we don't have access to custom save() methods easily.
             # We should manually set the slug here to be safe.
-            slug=slugify(f"{data['title']}"),
+            slug=slugify(f"{data['title']}-{data['title'][:10]}")[:50],
         )
 
         # Add Many-to-Many relationships
@@ -196,7 +209,7 @@ def reverse_initial_data(apps, schema_editor):
         "The future of AI in the Balkans",
         "Championship Finals: A Night to Remember",
         "Economic Summit 2025: Key Takeways",
-        "Local Artis Wins Prestigious Award",
+        "Local Artist Wins Prestigious Award",
         "New Infrastructure Project Announced",
         "AI Revolution in Balkan Healthcare",
     ]
@@ -218,11 +231,11 @@ class Migration(migrations.Migration):
     dependencies = [
         (
             "articles",
-            "0005_alter_article_featured_image",
+            "0001_initial",
         ),  # Replace with the actual last migration name of articles app
-        ("categories", "0003_alter_category_options"),
-        ("tags", "0002_alter_tag_slug"),
-        ("comments", "0002_alter_comment_options_remove_comment_is_published_and_more"),
+        ("categories", "0001_initial"),
+        ("tags", "0001_initial"),
+        ("comments", "0001_initial"),
     ]
 
     operations = [
