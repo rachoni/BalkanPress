@@ -311,6 +311,8 @@ Search covers:
 | `EMAIL_HOST_PASSWORD`  | SMTP password               | empty             |
 | `EMAIL_USE_TLS`        | Use TLS                     | `False`           |
 | `DEFAULT_FROM_EMAIL`   | Default sender              | required          |
+| `CELERY_BROKER_URL`    | Celery broker (Redis)       | `redis://localhost:6379/0` |
+| `CELERY_RESULT_BACKEND`| Celery backend (Redis)      | `redis://localhost:6379/0` |
 
 ---
 
@@ -330,6 +332,17 @@ DB_PORT=
 
 ALLOWED_HOSTS=
 CSRF_TRUSTED_ORIGINS=
+
+EMAIL_BACKEND=
+EMAIL_HOST=
+EMAIL_PORT=
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+EMAIL_USE_TLS=
+DEFAULT_FROM_EMAIL=
+
+CELERY_BROKER_URL=
+CELERY_RESULT_BACKEND=
 ```
 
 ---
