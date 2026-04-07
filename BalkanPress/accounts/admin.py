@@ -36,34 +36,29 @@ class AppUserAdmin(UserAdmin):
     ordering = ("username",)
 
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
         (
-            "Personal info",
+            None,
             {
                 "fields": (
+                    "username",
+                    "password",
                     "first_name",
                     "last_name",
                     "email",
                     "display_name",
                     "bio",
                     "avatar",
-                )
-            },
-        ),
-        (
-            "Permissions",
-            {
-                "fields": (
                     "is_active",
                     "is_staff",
                     "is_superuser",
                     "is_author",
                     "groups",
                     "user_permissions",
+                    "last_login",
+                    "date_joined",
                 )
             },
         ),
-        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
 
     add_fieldsets = (
