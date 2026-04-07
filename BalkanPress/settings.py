@@ -68,6 +68,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "BalkanPress",
     "welcome_sign": "Welcome to BalkanPress Admin",
     "copyright": "BalkanPress Ltd",
+    "changeform_format_overrides": {"accounts.appuser": "single"},
     "icons": {
         "auth.user": "fas fa-user",
         "auth.group": "fas fa-users",
