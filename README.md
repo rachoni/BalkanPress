@@ -7,10 +7,6 @@ BalkanPress is a production-ready news and blogging platform built with Django. 
 
 ---
 
-## Live Demo
-
-- BalkanPress: https://balkanpress-cuegbqejasgpc0at.francecentral-01.azurewebsites.net
-
 ## Features
 
 - Article management (Create, Edit, Delete)
