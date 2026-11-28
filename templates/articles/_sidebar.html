@@ -1,22 +1,32 @@
+{% load i18n %}
+
 <aside class="vstack gap-3">
     {% include 'common/partials/_clock.html' %}
     {% include 'common/partials/_weather.html' %}
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="h6 mb-2">Find Articles</h3>
+            <h3 class="h6 mb-2">{% translate "Find Articles" %}</h3>
+
             <form class="row g-2" method="get" action="{% url 'articles:search' %}">
                 <div class="col-12">
-                    <input class="form-control" type="search" name="q" placeholder="Search articles..." value="{{ request.GET.q|default:'' }}" aria-label="Search articles">
+                    <input
+                        class="form-control"
+                        type="search"
+                        name="q"
+                        placeholder="{% translate 'Search articles...' %}"
+                        value="{{ request.GET.q|default:'' }}"
+                        aria-label="{% translate 'Search articles' %}"
+                    >
                 </div>
 
                 <div class="col-12">
-                    <select class="form-select" name="category" aria-label="Filter by category">
-                        <option value="">All categories</option>
+                    <select class="form-select" name="category" aria-label="{% translate 'Filter by category' %}">
+                        <option value="">{% translate "All categories" %}</option>
+
                         {% for c in search_form.fields.category.queryset %}
-                        	<option value="{{ c.pk }}" {% if request.GET.category == c.pk|stringformat:"s" %}
-                        		selected
-                        	{% endif %}>
+                            <option value="{{ c.pk }}"
+                                {% if request.GET.category == c.pk|stringformat:"s" %}selected{% endif %}>
                                 {{ c.name }}
                             </option>
                         {% endfor %}
@@ -24,12 +34,12 @@
                 </div>
 
                 <div class="col-12">
-                    <select class="form-select" name="tag" aria-label="Filter by tag">
-                        <option value="">All tags</option>
+                    <select class="form-select" name="tag" aria-label="{% translate 'Filter by tag' %}">
+                        <option value="">{% translate "All tags" %}</option>
+
                         {% for t in search_form.fields.tag.queryset %}
-                        	<option value="{{ t.pk }}" {% if request.GET.tag == t.pk|stringformat:"s" %}
-                        		selected
-                        	{% endif %}>
+                            <option value="{{ t.pk }}"
+                                {% if request.GET.tag == t.pk|stringformat:"s" %}selected{% endif %}>
                                 {{ t.name }}
                             </option>
                         {% endfor %}
@@ -37,17 +47,29 @@
                 </div>
 
                 <div class="col-12">
-                    <select class="form-select" name="sort" aria-label="Sort articles">
-                        <option value="newest" {% if request.GET.sort == 'newest' or not request.GET.sort %}selected{% endif %}>Newest</option>
-                        <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest</option>
-                        <option value="title_asc" {% if request.GET.sort == 'title_asc' %}selected{% endif %}>Title A-Z</option>
-                        <option value="title_desc" {% if request.GET.sort == 'title_desc' %}selected{% endif %}>Title Z-A</option>
-                        <option value="most_commented" {% if request.GET.sort == 'most_commented' %}selected{% endif %}>Most Commented</option>
+                    <select class="form-select" name="sort" aria-label="{% translate 'Sort articles' %}">
+                        <option value="newest" {% if request.GET.sort == 'newest' or not request.GET.sort %}selected{% endif %}>
+                            {% translate "Newest" %}
+                        </option>
+                        <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>
+                            {% translate "Oldest" %}
+                        </option>
+                        <option value="title_asc" {% if request.GET.sort == 'title_asc' %}selected{% endif %}>
+                            {% translate "Title A-Z" %}
+                        </option>
+                        <option value="title_desc" {% if request.GET.sort == 'title_desc' %}selected{% endif %}>
+                            {% translate "Title Z-A" %}
+                        </option>
+                        <option value="most_commented" {% if request.GET.sort == 'most_commented' %}selected{% endif %}>
+                            {% translate "Most Commented" %}
+                        </option>
                     </select>
                 </div>
 
                 <div class="col-12">
-                    <button class="btn btn-outline-primary w-100" type="submit">Go</button>
+                    <button class="btn btn-outline-primary w-100" type="submit">
+                        {% translate "Go" %}
+                    </button>
                 </div>
             </form>
         </div>
@@ -55,34 +77,53 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="h6 mb-2">Newsletter</h3>
+            <h3 class="h6 mb-2">{% translate "Newsletter" %}</h3>
+
             <form method="post" action="{% url 'newsletter:subscribe' %}" class="vstack gap-2">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
                 <input
                     type="email"
                     name="email"
                     class="form-control"
-                    placeholder="Enter your email"
-                    aria-label="Email address"
+                    placeholder="{% translate 'Enter your email' %}"
+                    aria-label="{% translate 'Email address' %}"
                     required
                 >
-                <button type="submit" class="btn btn-sm btn-primary">Subscribe</button>
+
+                <button type="submit" class="btn btn-sm btn-primary">
+                    {% translate "Subscribe" %}
+                </button>
             </form>
         </div>
     </div>
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="h6 mb-2">Quick Stats</h3>
+            <h3 class="h6 mb-2">{% translate "Quick Stats" %}</h3>
+
             <ul class="list-unstyled small mb-3">
-                <li class="mb-1">Published Articles: <strong>{{ quick_stats.published_articles_count }}</strong></li>
-                <li class="mb-1">Categories: <strong>{{ quick_stats.categories_count }}</strong></li>
-                <li class="mb-1">Tags: <strong>{{ quick_stats.tags_count }}</strong></li>
-                <li>Approved Comments: <strong>{{ quick_stats.approved_comments_count }}</strong></li>
+                <li class="mb-1">
+                    {% translate "Published Articles" %}:
+                    <strong>{{ quick_stats.published_articles_count }}</strong>
+                </li>
+                <li class="mb-1">
+                    {% translate "Categories" %}:
+                    <strong>{{ quick_stats.categories_count }}</strong>
+                </li>
+                <li class="mb-1">
+                    {% translate "Tags" %}:
+                    <strong>{{ quick_stats.tags_count }}</strong>
+                </li>
+                <li>
+                    {% translate "Approved Comments" %}:
+                    <strong>{{ quick_stats.approved_comments_count }}</strong>
+                </li>
             </ul>
 
-            <h3 class="h6 mb-2">Trending Categories</h3>
+            <h3 class="h6 mb-2">{% translate "Trending Categories" %}</h3>
+
             <ul class="list-unstyled small mb-3">
                 {% for category in trending_categories %}
                     <li class="mb-1">
@@ -92,11 +133,12 @@
                         <span class="text-muted">({{ category.published_articles_count }})</span>
                     </li>
                 {% empty %}
-                    <li class="text-muted">No trending categories yet.</li>
+                    <li class="text-muted">{% translate "No trending categories yet." %}</li>
                 {% endfor %}
             </ul>
 
-            <h3 class="h6 mb-2">Trending Tags</h3>
+            <h3 class="h6 mb-2">{% translate "Trending Tags" %}</h3>
+
             <ul class="list-unstyled small mb-0">
                 {% for tag in trending_tags %}
                     <li class="mb-1">
@@ -106,7 +148,7 @@
                         <span class="text-muted">({{ tag.published_articles_count }})</span>
                     </li>
                 {% empty %}
-                    <li class="text-muted">No trending tags yet.</li>
+                    <li class="text-muted">{% translate "No trending tags yet." %}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -114,17 +156,20 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="h6 mb-2">Latest Comments</h3>
+            <h3 class="h6 mb-2">{% translate "Latest Comments" %}</h3>
+
             <ul class="list-unstyled small mb-0">
                 {% for comment in latest_comments %}
                     <li class="mb-2">
                         <a class="text-decoration-none" href="{% url 'articles:detail' slug=comment.article.slug %}">
                             {{ comment.author_name }}
                         </a>
-                        <span class="text-muted">on {{ comment.article.title|truncatechars:28 }}</span>
+                        <span class="text-muted">
+                            {% translate "on" %} {{ comment.article.title|truncatechars:28 }}
+                        </span>
                     </li>
                 {% empty %}
-                    <li class="text-muted">No approved comments yet.</li>
+                    <li class="text-muted">{% translate "No approved comments yet." %}</li>
                 {% endfor %}
             </ul>
         </div>

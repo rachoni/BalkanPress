@@ -1,57 +1,85 @@
+
 """
 URL configuration for BalkanPress project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+The `urlpatterns` list routes URLs to views.
 """
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework_simplejwt.views import (TokenObtainPairView,
-                                            TokenRefreshView)
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from BalkanPress.common.views import AboutView
 
+
 urlpatterns = [
+    path("i18n/", include("django.conf.urls.i18n")),
+]
+
+urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path(
         "categories/",
-        include(("BalkanPress.categories.urls", "categories"), namespace="categories"),
+        include(
+            ("BalkanPress.categories.urls", "categories"),
+            namespace="categories",
+        ),
     ),
-    path("tags/", include(("BalkanPress.tags.urls", "tags"), namespace="tags")),
+    path(
+        "tags/",
+        include(("BalkanPress.tags.urls", "tags"), namespace="tags"),
+    ),
     path("about/", AboutView.as_view(), name="about"),
     path(
         "newsletter/",
-        include(("BalkanPress.newsletter.urls", "newsletter"), namespace="newsletter"),
+        include(
+            ("BalkanPress.newsletter.urls", "newsletter"),
+            namespace="newsletter",
+        ),
     ),
     path(
         "accounts/",
-        include(("BalkanPress.accounts.urls", "accounts"), namespace="accounts"),
+        include(
+            ("BalkanPress.accounts.urls", "accounts"),
+            namespace="accounts",
+        ),
     ),
     path(
         "api/",
         include(("BalkanPress.api.urls", "api"), namespace="api"),
     ),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
-    path("", include(("BalkanPress.articles.urls", "articles"), namespace="articles")),
-]
+    path(
+        "api/token/",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
+    path(
+        "",
+        include(("BalkanPress.articles.urls", "articles"), namespace="articles"),
+    ),
+)
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT,
+    )
+
 
 handler404 = "BalkanPress.common.views.custom_404"
 handler500 = "BalkanPress.common.views.custom_500"
